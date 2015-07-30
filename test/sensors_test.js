@@ -8,14 +8,24 @@ sts = require('../stsplatform');
 // Declare your settings as specified in settings_example.js
 var settings = require("./settings.js"),
 conf = settings.conf,
-sensor_name = settings.sensor_name;
-private_sensor_name = settings.private_sensor_name;
+sensor_name = settings.sensor_name,
+private_sensor_name = settings.private_sensor_name,
+username = settings.username;
 
 var default_client = new sts.Client();
 var conf_client = new sts.Client(conf);
 var sensors = new sts.Sensors(default_client); //sensors no auth
 var public_sensor = new sts.Sensors(default_client, sensor_name);
 var private_sensor = new sts.Sensors(conf_client, private_sensor_name);
+
+// For testing creating a sensor
+var random_sensor_name = Math.random().toString(36).substring(7);
+var new_sensor = {
+    name:random_sensor_name,
+    longName:'Delete Me Sensor',
+    description:'Auto generated for tests..',
+    tags: ['elephants']
+};
 
 describe('#constructor', function(){
   it('should have url and auth', function () {
@@ -112,14 +122,6 @@ describe ('#get#promises#publicsensor', function(){
 * POST
 **/
 
-//Only for posts
-var random_sensor_name = Math.random().toString(36).substring(7);
-var new_sensor = {
-    name:random_sensor_name,
-    longName:'Delete Me Sensor',
-    description:'Auto generated for tests..',
-    tags: ['elephants']
-};
 
 describe('#post#callbacks', function (){
   it('should create a sensor with credentials', function(done){
@@ -131,7 +133,6 @@ describe('#post#callbacks', function (){
       done();
     });
   });
-
 });
 
 describe('#post#promises', function(){
@@ -145,7 +146,6 @@ describe('#post#promises', function(){
       done();
     });
   });
-
   it('should create a sensor with credentials', function(){
     response.constructor.name.should.equal("STSPlatformResponse");
     response.code.should.equal(201);
@@ -157,11 +157,31 @@ describe('#post#promises', function(){
 **/
 
 describe('#put#callbacks', function (){
-  it('should modify a sensor with credentials');
+  it('should modify a sensor with credentials', function(done){
+    this.timeout(10000);
+    var sensor = new sts.Sensors(conf_client,username+"."+random_sensor_name);
+    sensor.put({description:"Modified"}, function(error, response){
+      response.constructor.name.should.equal("STSPlatformResponse");
+      response.code.should.equal(204);
+      done();
+    });
+  });
 });
 
 describe('#put#promises', function(){
-  it('should modify a sensor with credentials');
+  this.timeout(10000); //10 seconds
+  var response;
+  beforeEach(function(done){ // We wait the promise to return before our test
+    var sensor = new sts.Sensors(conf_client, username+"."+random_sensor_name+ "promises");
+    sensor.put({description:"Modified"}).then(function(res){
+      response = res;
+      done();
+    });
+  });
+  it('should modify a sensor with credentials', function(){
+    response.constructor.name.should.equal("STSPlatformResponse");
+    response.code.should.equal(204);
+  });
 });
 
 
@@ -170,9 +190,30 @@ describe('#put#promises', function(){
 **/
 
 describe('#delete#callbacks', function (){
-  it('should delete a sensor with credentials');
+  it('should delete a sensor with credentials', function(done){
+    this.timeout(10000);
+    var sensor = new sts.Sensors(conf_client,username+"."+random_sensor_name);
+    sensor.delete(null, function(error,response){
+      response.constructor.name.should.equal("STSPlatformResponse");
+      response.code.should.equal(204);
+      done();
+    });
+  });
 });
 
 describe('#delete#promises', function(){
-  it('should delete a sensor with credentials');
+  this.timeout(10000); //10 seconds
+  var response;
+  beforeEach(function(done){ // We wait the promise to return before our test
+    var sensor = new sts.Sensors(conf_client, username+"."+random_sensor_name+ "promises");
+    sensor.delete().then(function(res){
+      response = res;
+      done();
+    });
+  });
+  it('should delete a sensor with credentials', function(){
+    response.constructor.name.should.equal("STSPlatformResponse");
+    response.code.should.equal(204);
+
+  });
 });
