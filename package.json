@@ -1,0 +1,36 @@
+{
+  "name": "stsplatform",
+  "version": "0.0.1",
+  "description": "Allows developers to use the STS Platform API",
+  "main": "stsplatform.js",
+  "scripts": {
+    "test": "grunt mochaTest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SenseTecnic/stsplatform-lib-node.git"
+  },
+  "keywords": [
+    "node",
+    "library",
+    "stsplatform",
+    "wotkit"
+  ],
+  "author": "SenseTecnic <rcalderon@sensetecnic.com> (http://sensetecnic.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SenseTecnic/stsplatform-lib-node/issues"
+  },
+  "homepage": "https://github.com/SenseTecnic/stsplatform-lib-node#readme",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "q": "^1.4.1"
+  }
+}
