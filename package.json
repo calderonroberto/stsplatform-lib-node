@@ -1,6 +1,6 @@
 {
   "name": "stsplatform",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Allows developers to use the STS Platform API",
   "main": "stsplatform.js",
   "scripts": {
