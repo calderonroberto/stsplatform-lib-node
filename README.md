@@ -175,7 +175,7 @@ d.get({beforeE:1}).then(function(response){
 ```
 var c = new sts.Client(CONF);
 var s = new sts.Sensors(c, SENSOR_NAME);
-var d = new s.Data(s);
+var d = new sts.Data(s);
 
 // Using callbacks
 d.post({value:42}, function(error, response){

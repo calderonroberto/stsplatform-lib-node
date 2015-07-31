@@ -12,12 +12,6 @@ module.exports = function(grunt) {
           clearRequireCache: false
         },
         src: ['test/**/*.js']
-      },
-      orgs:{
-        options: {
-          reporter: 'spec'
-        },
-        src: ['test/orgs_test.js']
       }
     },
     //Linting
