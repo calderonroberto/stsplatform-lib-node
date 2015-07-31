@@ -13,11 +13,11 @@ module.exports = function(grunt) {
         },
         src: ['test/**/*.js']
       },
-      fields:{
+      orgs:{
         options: {
           reporter: 'spec'
         },
-        src: ['test/fields_test.js']
+        src: ['test/orgs_test.js']
       }
     },
     //Linting

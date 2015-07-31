@@ -3,5 +3,6 @@ module.exports = {
   Client: require('./lib/client'),
   Sensors: require('./lib/sensors'),
   Data: require('./lib/data'),
-  Fields: require('./lib/fields')
+  Fields: require('./lib/fields'),
+  Orgs: require('./lib/orgs')
 };
