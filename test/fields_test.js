@@ -8,50 +8,38 @@ sensor_name = settings.sensor_name;
 
 var client = new sts.Client(conf);
 var sensor = new sts.Sensors(client, sensor_name);
-var data = new sts.Data(sensor);
+var fields = new sts.Fields(sensor);
 
-// For testing creating a sensor
-var random_value = Math.random();
+var newfield = {
+  name: "newfield",
+  longName: "newfield",
+  type: "NUMBER",
+  index: 99,
+  required: "false",
+  value: 0
+};
+
+var promisesnewfield = {
+  name: "promisesnewfield",
+  longName: "newfield",
+  type: "NUMBER",
+  index: 99,
+  required: "false",
+  value: 0
+};
+
+
 
 describe('#constructor', function(){
   it('should have methods', function () {
-    assert.isFunction(data.setHandler);
-    assert.isFunction(data.get);
-    assert.isFunction(data.post);
-    assert.isFunction(data.put);
-    assert.isFunction(data.delete);
+    assert.isFunction(fields.setHandler);
+    assert.isFunction(fields.get);
+    assert.isFunction(fields.post);
+    assert.isFunction(fields.put);
+    assert.isFunction(fields.delete);
   });
 });
 
-/**
-* POST
-**/
-
-describe('#post#callbacks', function (){
-  it('should create data', function(done){
-    this.timeout(10000);
-    data.post({value:random_value}, function(error,response){
-      response.constructor.name.should.equal("STSPlatformResponse");
-      response.code.should.equal(201);
-      done();
-    });
-  });
-});
-
-describe('#post#promises', function(){
-  this.timeout(10000); //10 seconds
-  var response;
-  beforeEach(function(done){ // We wait the promise to return before our test
-    data.post({value:random_value}).then(function(res){
-      response = res;
-      done();
-    });
-  });
-  it('should create data', function(){
-    response.constructor.name.should.equal("STSPlatformResponse");
-    response.code.should.equal(201);
-  });
-});
 
 /**
 * GET
@@ -59,11 +47,11 @@ describe('#post#promises', function(){
 
 describe ('#get#callbacks', function(){
   this.timeout(10000); //10 seconds
-  it ('should retrive data', function(done){
-    data.get({beforeE:1}, function(error,response){
+  it ('should retrive fields', function(done){
+    fields.get(null, function(error,response){
       response.constructor.name.should.equal("STSPlatformResponse");
       response.code.should.equal(200);
-      response.data[0].value.should.equal(random_value);
+      response.data[0].name.should.equal('value');
       done();
     });
   });
@@ -73,7 +61,7 @@ describe ('#get#promises', function(){
   this.timeout(10000); //10 seconds
   var response;
   beforeEach(function(done){ // We wait the promise to return before our test
-    data.get({beforeE:1}).then(function(res){
+    fields.get().then(function(res){
       response = res;
       done();
     });
@@ -81,22 +69,19 @@ describe ('#get#promises', function(){
   it ('should retrieve data)', function(){
     response.constructor.name.should.equal("STSPlatformResponse");
     response.code.should.equal(200);
-    response.data[0].value.should.equal(random_value);
+    response.data[0].name.should.equal('value');
   });
 });
 
 /**
 * PUT
 **/
-var batchdata = [
-  {"timestamp":"2012-12-12T03:34:28.626Z","value":67.0,"lng":-123.1404,"lat":49.20532},
-  {"timestamp":"2012-12-12T03:34:28.665Z","value":63.0,"lng":-123.14054,"lat":49.20554}
-];
 
 describe('#put#callbacks', function (){
-  it('should add batch data', function(done){
+  it('should addupdate fields', function(done){
     this.timeout(10000);
-    data.put(batchdata, function(error, response){
+    new_field = new sts.Fields(sensor, 'newfield');
+    new_field.put(newfield, function(error, response){
       response.constructor.name.should.equal("STSPlatformResponse");
       response.code.should.equal(204);
       done();
@@ -104,12 +89,12 @@ describe('#put#callbacks', function (){
   });
 });
 
-
 describe('#put#promises', function(){
   this.timeout(10000); //10 seconds
   var response;
   beforeEach(function(done){ // We wait the promise to return before our test
-    data.put(batchdata).then(function(res){
+    new_field = new sts.Fields(sensor, 'promisesnewfield');
+    new_field.put(promisesnewfield).then(function(res){
       response = res;
       done();
     });
@@ -120,15 +105,20 @@ describe('#put#promises', function(){
   });
 });
 
-
 /**
 * DELETE
 **/
 
+/*
+f = sts.Fields(s, 'newfield')
+        r = f.delete()
+        self.assertEquals(r.code,204)
+*/
 describe('#delete#callbacks', function (){
-  it('should delete data', function(done){
+  it('can delete fields', function(done){
     this.timeout(10000);
-    data.delete("2012-12-12T03:34:28.626Z", function(error,response){
+    new_field = new sts.Fields(sensor, 'newfield');
+    new_field.delete(null, function(error,response){
       response.constructor.name.should.equal("STSPlatformResponse");
       response.code.should.equal(204);
       done();
@@ -140,12 +130,13 @@ describe('#delete#promises', function(){
   this.timeout(10000); //10 seconds
   var response;
   beforeEach(function(done){ // We wait the promise to return before our test
-    data.delete("2012-12-12T03:34:28.626Z").then(function(res){
+    new_field = new sts.Fields(sensor, 'promisesnewfield');
+    new_field.delete().then(function(res){
       response = res;
       done();
     });
   });
-  it('should delete data', function(){
+  it('should delete fields', function(){
     response.constructor.name.should.equal("STSPlatformResponse");
     response.code.should.equal(204);
   });

@@ -26,7 +26,7 @@ var new_sensor = {
 };
 
 describe('#constructor', function(){
-  it('should have url and auth', function () {
+  it('should have methods', function () {
     assert.isFunction(sensors.setHandler);
     assert.isFunction(sensors.get);
     assert.isFunction(sensors.post);
