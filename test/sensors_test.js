@@ -27,7 +27,6 @@ var new_sensor = {
 
 describe('#constructor', function(){
   it('should have url and auth', function () {
-    expect(sensors.url).to.equal('http://wotkit.sensetecnic.com/api');
     assert.isFunction(sensors.setHandler);
     assert.isFunction(sensors.get);
     assert.isFunction(sensors.post);
