@@ -19,7 +19,6 @@ describe('#constructor', function(){
   });
 });
 
-
 /**
 * GET
 **/
