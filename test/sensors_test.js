@@ -3,8 +3,6 @@ should = require('chai').should(),
 assert = require('chai').assert,
 sts = require('../stsplatform');
 
-//While it is better to mock http resources with sinon the API changes make it easier and more robust to test against the real API.
-
 // Declare your settings as specified in settings_example.js
 var settings = require("./settings.js"),
 conf = settings.conf,
@@ -19,7 +17,7 @@ var public_sensor = new sts.Sensors(default_client, sensor_name);
 var private_sensor = new sts.Sensors(conf_client, private_sensor_name);
 
 // For testing creating a sensor
-var random_sensor_name = Math.random().toString(36).substring(7);
+var random_sensor_name = "test-"+Math.random().toString(36).substring(7);
 var new_sensor = {
     name:random_sensor_name,
     longName:'Delete Me Sensor',
