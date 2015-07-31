@@ -23,11 +23,9 @@ describe('#constructor', function(){
   });
 });
 
-
 /**
 * POST
 **/
-
 
 describe('#post#callbacks', function (){
   it('should create data', function(done){
@@ -54,8 +52,6 @@ describe('#post#promises', function(){
     response.code.should.equal(201);
   });
 });
-
-
 
 /**
 * GET
@@ -128,7 +124,6 @@ describe('#put#promises', function(){
 /**
 * DELETE
 **/
-
 
 describe('#delete#callbacks', function (){
   it('should delete data', function(done){
